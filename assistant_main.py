@@ -27,17 +27,17 @@ class Record:
         self.phones.append(phone)
 
     def remove_phone(self, phone):
-        if phone in self.phones:
-            self.phones.remove(phone)
+        phone_obj = self.find_phone(phone) 
+        if phone_obj:
+            self.phones.remove(phone_obj)
 
     def edit_phone(self, old_phone, new_phone):
-        old_phone_obj = Phone(old_phone)     # перевірка ValueError
         new_phone_obj = Phone(new_phone)     # перевірка ValueError
-                         
-        for phone in self.phones:
-            if phone.value == old_phone:
-                phone.value = new_phone
-                return
+        old_phone_obj = self.find_phone(old_phone)
+        if old_phone_obj:
+            self.remove_phone(old_phone)
+            self.add_phone(new_phone)
+            return
 
         raise ValueError("File not found.")
     
@@ -45,7 +45,7 @@ class Record:
     def find_phone(self, phone):
         for p in self.phones:
             if phone in p.value:
-                return Phone(phone)
+                return p
 
         return None
 
@@ -54,14 +54,11 @@ class Record:
 
 
 class AddressBook(UserDict):
-    def add_record(self, Record):
-        self.data[Record.name.value] = Record
+    def add_record(self, record):
+        self.data[record.name.value] = record
 
     def find(self, name):
-        if name in self.data.keys():
-            return self.data[name]
-        else:
-            return None
+        return self.data.get(name)
         
     def delete(self, name):
         del self.data[name]
