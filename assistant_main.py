@@ -32,12 +32,12 @@ class Record:
             self.phones.remove(phone_obj)
 
     def edit_phone(self, old_phone, new_phone):
-        Phone(new_phone)
-        if self.find_phone(old_phone):
+        old_phone_obj = self.find_phone(old_phone)
+        if old_phone_obj:
             self.add_phone(new_phone)
             self.remove_phone(old_phone)
             return
-        raise ValueError("Phone not found.")
+        raise ValueError("File not found.")
     
                 
     def find_phone(self, phone):
