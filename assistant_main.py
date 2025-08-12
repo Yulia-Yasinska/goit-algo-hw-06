@@ -32,19 +32,17 @@ class Record:
             self.phones.remove(phone_obj)
 
     def edit_phone(self, old_phone, new_phone):
-        new_phone_obj = Phone(new_phone)     # перевірка ValueError
-        old_phone_obj = self.find_phone(old_phone)
-        if old_phone_obj:
-            self.remove_phone(old_phone)
+        Phone(new_phone)
+        if self.find_phone(old_phone):
             self.add_phone(new_phone)
+            self.remove_phone(old_phone)
             return
-
-        raise ValueError("File not found.")
+        raise ValueError("Phone not found.")
     
                 
     def find_phone(self, phone):
         for p in self.phones:
-            if phone in p.value:
+            if phone == p.value:
                 return p
 
         return None
@@ -99,3 +97,8 @@ print(f"{john.name}: {found_phone}")  # Виведення: John: 5555555555
 
 # Видалення запису Jane
 book.delete("Jane")
+
+r = Record('r')
+r.add_phone('1231231231')
+r.add_phone('1231231238')
+print(r.find_phone('23'))
